@@ -2,6 +2,7 @@ package it.polito.tdp.anagrammi.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import it.polito.tdp.anagrammi.model.AnagrammiModel;
 import javafx.event.ActionEvent;
@@ -37,7 +38,24 @@ public class AnagrammiController {
 
     @FXML
     void doCalcola(ActionEvent event) {
-   
+    	
+    	this.txtAreaCorretta.clear();
+    	this.txtAreaErrata.clear();
+    	
+    	String parola = this.txtParola.getText().toLowerCase().trim();
+    	
+    	if (!parola.matches("[a-zA-Z?]*")) {
+    		this.txtAreaCorretta.appendText("Inserire una parola valida!");
+    		return;
+    	}
+    	
+    	Set <String> anagrammi = model.calcolaAnagrammi(parola);
+    	
+    	for (String s : anagrammi)
+    		if (model.isCorrect(s))
+    			this.txtAreaCorretta.appendText(s + "\n");
+    		else
+    			this.txtAreaErrata.appendText(s + "\n");
     }	
 
     @FXML
